@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -6,6 +7,7 @@ from django.conf import settings
 from .forms import UserForm
 from .models import User
 from django.contrib.auth import authenticate, login
+
 
 @login_required(login_url='login')
 def index(request):
@@ -26,7 +28,8 @@ def add_user(request):
         if form.is_valid():
             user = form.save()
             messages.success(request, 'User added successfully!')
-            send_notification_email(user)
+            admin = request.user
+            send_notification_email(user, admin.email)
             return redirect('user_list')
 
     else:
@@ -56,18 +59,23 @@ def delete_user(request, user_id):
     return redirect('index')
 
 
-def send_notification_email(user):
+def send_notification_email(user, admin_email):
     subject = 'New user registered'
     message = f'A new user {user.name} has been registered with email {user.email}.'
     from_email = settings.EMAIL_HOST_USER
-    recipient_list = [from_email]
+    recipient_list = [admin_email]
     send_mail(subject, message, from_email, recipient_list)
 
 
 @login_required(login_url='login')
 def users_list(request):
-    users = User.objects.all()
+    search_term = request.GET.get('q', '')
+    if search_term:
+        users = User.objects.filter(Q(name__contains=search_term) | Q(email__contains=search_term))
+    else:
+        users = User.objects.all()
     return render(request, 'user_list.html', {'users': users})
+
 
 def login_view(request):
     if request.method == 'POST':
