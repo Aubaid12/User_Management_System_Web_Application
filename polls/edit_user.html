@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Edit User</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.name.label_tag }}
+      {{ form.name }}
+      {% if form.name.errors %}
+        <div class="alert alert-danger">{{ form.name.errors }}</div>
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="alert alert-danger">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{ form.qualification.label_tag }}
+      {{ form.qualification }}
+      {% if form.qualification.errors %}
+        <div class="alert alert-danger">{{ form.qualification.errors }}</div>
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{ form.address.label_tag }}
+      {{ form.address }}
+      {% if form.address.errors %}
+        <div class="alert alert-danger">{{ form.address.errors }}</div>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'user_detail' user_id=user_id %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
