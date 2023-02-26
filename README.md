@@ -28,3 +28,5 @@ The User Management System Web Application is a simple yet powerful web applicat
 To run the development sever. use command in terminal: 
 
 python manage.py runserver
+
+Admin login - username = Aubaid and Password = qwe123
