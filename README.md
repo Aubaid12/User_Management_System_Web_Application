@@ -24,3 +24,6 @@ The User Management System Web Application is built using the following technolo
 Conclusion
 
 The User Management System Web Application is a simple yet powerful web application for managing user data. It is built using modern web development technologies, including Python, Django, HTML, CSS, Bootstrap, and SQLite. Its clean and user-friendly design makes it easy to use and navigate.
+
+To run the development sever. use command in terminal: 
+python manage.py runserver
